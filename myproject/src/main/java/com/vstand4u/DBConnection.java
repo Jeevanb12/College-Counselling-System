@@ -8,9 +8,9 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    private static String dbUrl = "jdbc:mysql://localhost:3306/counselling";
-    private static String dbUser = "root";
-    private static String dbPass = "1234"; // Default development fallback
+    private static String dbUrl = "";
+    private static String dbUser = "";
+    private static String dbPass = "";
 
     static {
         try {

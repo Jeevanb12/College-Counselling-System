@@ -71,7 +71,14 @@ CREATE TABLE IF NOT EXISTS colleges (
    - Open Eclipse IDE / IntelliJ IDEA.
    - Import as an existing Maven Project.
 3. **Configure Database Connection**:
-   - Ensure MySQL is running on `localhost:3306` with username `root` and password `1234` (or update DB credentials in JSPs).
+   - Navigate to `myproject/src/main/resources/`.
+   - Copy `db.properties.example` and rename the copy to `db.properties`.
+   - Open `db.properties` and fill in your local MySQL credentials:
+     ```properties
+     db.url=jdbc:mysql://localhost:3306/counselling
+     db.user=root
+     db.pass=YOUR_LOCAL_MYSQL_PASSWORD
+     ```
 4. **Deploy to Tomcat**:
    - Add the project (`myproject`) to Apache Tomcat 10.1 Server and start the server.
    - Open your browser at `http://localhost:8080/myproject/`.

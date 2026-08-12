@@ -1,6 +1,6 @@
 # Database Configuration Example
-# Copy this file to db.properties and set your local database password
+# Copy this file to db.properties in the same directory and set your local database settings
 
 db.url=jdbc:mysql://localhost:3306/counselling
 db.user=root
-db.pass=YOUR_DATABASE_PASSWORD_HERE
+db.pass=YOUR_LOCAL_MYSQL_PASSWORD
