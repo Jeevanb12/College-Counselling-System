@@ -1,8 +1,19 @@
-<%@ page import="java.sql.*, java.util.*, com.vstand4u.DBConnection" %>
+<%@ page import="java.sql.*, java.util.*" %>
+<%@ include file="db.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-if(session.getAttribute("user") == null) { response.sendRedirect("login.jsp"); return; }
-int userId = (Integer) session.getAttribute("user_id");
+String uidStr = request.getParameter("uid");
+int userId = 0;
+if(uidStr != null && !uidStr.trim().isEmpty()) {
+    try { userId = Integer.parseInt(uidStr); } catch(Exception e){}
+}
+if(userId == 0 && session.getAttribute("user_id") != null) {
+    userId = (Integer) session.getAttribute("user_id");
+}
+if(userId == 0 && session.getAttribute("student_user_id") != null) {
+    userId = (Integer) session.getAttribute("student_user_id");
+}
+if(userId == 0) { response.sendRedirect("login.jsp"); return; }
 
 // Fallback validation checks to break loops if parameters are completely missing
 if(request.getParameter("marks") == null) {
@@ -22,7 +33,7 @@ String coursesJoined = String.join(",", rawCourses);
 
 // Log lookup to transaction table
 try {
-    Connection con = DBConnection.getConnection();
+    Connection con = getDBConnection();
     PreparedStatement histPs = con.prepareStatement("INSERT INTO search_history(user_id, marks, courses) VALUES(?,?,?)");
     histPs.setInt(1, userId); histPs.setInt(2, marks); histPs.setString(3, coursesJoined);
     histPs.executeUpdate();
@@ -111,7 +122,7 @@ try {
                 <tbody id="resultBody">
                 <%
                 try {
-                    Connection con = DBConnection.getConnection();
+                    Connection con = getDBConnection();
                     
                     // Generate dynamic placement holders matching checked array inputs
                     List<String> conditions = new ArrayList<String>();

@@ -1,14 +1,25 @@
-<%@ page import="java.sql.*, com.vstand4u.DBConnection" %>
+<%@ page import="java.sql.*" %>
+<%@ include file="db.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-if(session.getAttribute("user") == null) { response.sendRedirect("login.jsp"); return; }
-int userId = (Integer) session.getAttribute("user_id");
+String uidStr = request.getParameter("uid");
+int userId = 0;
+if(uidStr != null && !uidStr.trim().isEmpty()) {
+    try { userId = Integer.parseInt(uidStr); } catch(Exception e){}
+}
+if(userId == 0 && session.getAttribute("user_id") != null) {
+    userId = (Integer) session.getAttribute("user_id");
+}
+if(userId == 0 && session.getAttribute("student_user_id") != null) {
+    userId = (Integer) session.getAttribute("student_user_id");
+}
+if(userId == 0) { response.sendRedirect("login.jsp"); return; }
 
 // AJAX dynamic insertion handling segment
 String action = request.getParameter("action");
 if("add".equals(action)) {
     try {
-        Connection con = DBConnection.getConnection();
+        Connection con = getDBConnection();
         PreparedStatement ps = con.prepareStatement("INSERT IGNORE INTO shortlist(user_id, college_id) VALUES(?,?)");
         ps.setInt(1, userId); ps.setInt(2, Integer.parseInt(request.getParameter("college_id")));
         ps.executeUpdate(); con.close();
@@ -19,7 +30,7 @@ if("add".equals(action)) {
 // Remove selection parameter request handling
 if("delete".equals(action)) {
     try {
-        Connection con = DBConnection.getConnection();
+        Connection con = getDBConnection();
         PreparedStatement ps = con.prepareStatement("DELETE FROM shortlist WHERE user_id=? AND college_id=?");
         ps.setInt(1, userId); ps.setInt(2, Integer.parseInt(request.getParameter("college_id")));
         ps.executeUpdate(); con.close();
@@ -66,7 +77,7 @@ if("delete".equals(action)) {
                 <tbody>
                 <%
                 try {
-                    Connection con = DBConnection.getConnection();
+                    Connection con = getDBConnection();
                     PreparedStatement ps = con.prepareStatement(
                         "SELECT c.* FROM colleges c JOIN shortlist s ON c.id = s.college_id WHERE s.user_id=?");
                     ps.setInt(1, userId);

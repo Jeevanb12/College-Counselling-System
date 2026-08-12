@@ -1,8 +1,19 @@
-<%@ page import="java.sql.*, com.vstand4u.DBConnection" %>
+<%@ page import="java.sql.*" %>
+<%@ include file="db.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-if(session.getAttribute("user") == null) { response.sendRedirect("login.jsp"); return; }
-int userId = (Integer) session.getAttribute("user_id");
+String uidStr = request.getParameter("uid");
+int userId = 0;
+if(uidStr != null && !uidStr.trim().isEmpty()) {
+    try { userId = Integer.parseInt(uidStr); } catch(Exception e){}
+}
+if(userId == 0 && session.getAttribute("user_id") != null) {
+    userId = (Integer) session.getAttribute("user_id");
+}
+if(userId == 0 && session.getAttribute("student_user_id") != null) {
+    userId = (Integer) session.getAttribute("student_user_id");
+}
+if(userId == 0) { response.sendRedirect("login.jsp"); return; }
 %>
 <!DOCTYPE html>
 <html>
@@ -28,7 +39,7 @@ int userId = (Integer) session.getAttribute("user_id");
                 <tbody>
                 <%
                 try {
-                    Connection con = DBConnection.getConnection();
+                    Connection con = getDBConnection();
                     PreparedStatement ps = con.prepareStatement("SELECT * FROM search_history WHERE user_id=? ORDER BY searched_at DESC");
                     ps.setInt(1, userId);
                     ResultSet rs = ps.executeQuery();

@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Colleges table
 CREATE TABLE IF NOT EXISTS colleges (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    college_code VARCHAR(30) DEFAULT 'E101',
     college_name VARCHAR(150) NOT NULL,
     course VARCHAR(50) NOT NULL,
     cutoff INT NOT NULL,

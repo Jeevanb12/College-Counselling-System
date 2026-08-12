@@ -1,4 +1,5 @@
-<%@ page import="java.sql.*, com.vstand4u.DBConnection" %>
+<%@ page import="java.sql.*" %>
+<%@ include file="db.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -39,7 +40,7 @@
         String errorMsg = null;
         if(request.getParameter("email") != null) {
             try {
-                Connection con = DBConnection.getConnection();
+                Connection con = getDBConnection();
                 
                 // 1. Pre-check if email already exists
                 PreparedStatement checkPs = con.prepareStatement("SELECT id FROM users WHERE email=?");
