@@ -1,0 +1,31 @@
+# Eclipse metadata & workspace settings
+.metadata/
+.recommenders/
+.settings/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+
+# Sensitive config & credentials
+db.properties
+*.env
+*.key
+*.pem
+
+# Maven build outputs
+target/
+myproject/target/
+*.class
+*.war
+*.ear
+*.jar
+
+# Local Server configurations
+Servers/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
