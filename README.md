@@ -58,6 +58,24 @@ CREATE TABLE IF NOT EXISTS colleges (
     district VARCHAR(50) NOT NULL,
     type VARCHAR(50) NOT NULL
 );
+
+-- Shortlist table
+CREATE TABLE IF NOT EXISTS shortlist (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    college_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY user_college_unique (user_id, college_id)
+);
+
+-- Search History table
+CREATE TABLE IF NOT EXISTS search_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    marks INT NOT NULL,
+    courses VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 ---
