@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS search_history (
 
 1. **Clone Repository**:
    ```bash
-   git clone <your-repository-url>
+   [git clone <your-repository-url>](https://github.com/Jeevanb12/College-Counselling-System.git)
    ```
 2. **Import into IDE**:
    - Open Eclipse IDE / IntelliJ IDEA.
